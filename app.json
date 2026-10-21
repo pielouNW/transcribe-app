@@ -1,4 +1,8 @@
 {
   "name": "transcriber",
-  "displayName": "transcriber"
+  "displayName": "transcriber",
+  "plugins": [
+    "expo-audio",
+    "expo-sharing"
+  ]
 }

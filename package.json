@@ -10,11 +10,20 @@
     "test": "jest"
   },
   "dependencies": {
-    "@react-native/new-app-screen": "0.88.0",
+    "@expo/vector-icons": "^15.0.2",
+    "@react-navigation/native": "^7.5.1",
+    "@react-navigation/native-stack": "^7.21.0",
     "expo": "~58.0.0",
+    "expo-audio": "~58.0.9",
+    "expo-clipboard": "~58.0.3",
+    "expo-file-system": "~58.0.10",
+    "expo-keep-awake": "~58.0.3",
+    "expo-sharing": "~58.0.19",
     "react": "19.3.0",
     "react-native": "0.88.0",
-    "react-native-safe-area-context": "^5.5.2"
+    "react-native-nobodywho": "^5.1.0",
+    "react-native-safe-area-context": "^5.5.2",
+    "react-native-screens": "~4.30.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
