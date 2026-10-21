@@ -1,0 +1,9 @@
+diff --git a/node_modules/react-native-nobodywho/android/proguard-rules.pro b/node_modules/react-native-nobodywho/android/proguard-rules.pro
+new file mode 100644
+--- /dev/null
++++ b/node_modules/react-native-nobodywho/android/proguard-rules.pro
+@@ -0,0 +1,4 @@
++# Missing from the react-native-nobodywho 5.1.0 npm package although its
++# build.gradle declares it as consumer ProGuard rules. Keep the native module,
++# which is looked up by name from C++/JSI, in case the app enables R8.
++-keep class ooo.nobodywho.** { *; }
