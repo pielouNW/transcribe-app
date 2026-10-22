@@ -9,7 +9,7 @@
 
 Demonstrates the capabilities of **[NobodyWho](https://github.com/nobodywho-ooo/nobodywho)**, a library designed to run LLMs locally and efficiently on any device.
 
-With this app, you can do transcription locally, offline and for free, thanks to Whisper Speech-to-Text model.
+With this app, you can do transcription locally, offline and for free, thanks to Whisper Speech-to-Text model. Get the .apk to try it in the [release section](https://github.com/pielouNW/transcribe-app/releases).
 
 ### Install and Start Metro
 
@@ -35,21 +35,13 @@ npm run android
 
 **iOS**
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+Install CocoaPods dependencies:
 
 ```sh
-bundle install
+cd ios && pod install
 ```
 
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+Run in simulator with:
 
 ```sh
 npm run ios
