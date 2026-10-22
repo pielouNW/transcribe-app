@@ -1,31 +1,34 @@
-# Getting Started
+![NobodyWho](./transcriber-mobile-app.png)
 
-## Step 1: Start Metro
+[![Discord](https://img.shields.io/discord/1308812521456799765?logo=discord&style=flat-square)](https://discord.gg/qhaMc2qCYB)
+[![Matrix](https://img.shields.io/badge/Matrix-000?logo=matrix&logoColor=fff)](https://matrix.to/#/#nobodywho:matrix.org)
+[![Mastodon](https://img.shields.io/badge/Mastodon-6364FF?logo=mastodon&logoColor=fff&style=flat-square)](https://mastodon.gamedev.place/@nobodywho)
+[![Docs](https://img.shields.io/badge/Docs-lightblue?style=flat-square)](https://docs.nobodywho.ooo)
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+# Transcriber app
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+Demonstrates the capabilities of **[NobodyWho](https://github.com/nobodywho-ooo/nobodywho)**, a library designed to run LLMs locally and efficiently on any device. With this app, you can do transcription locally, offline and for free, thanks to whisper Speech to Text model.
+
+## Step 1: Install and Start Metro
+
+First, you will need to run install dependencies:
 
 ```sh
-# Using npm
-npm start
+npm install
+```
 
-# OR using Yarn
-yarn start
+To start the Metro dev server, run the following command :
+
+```sh
+npm start
 ```
 
 ## Step 2: Build and run your app
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
 ### Android
 
 ```sh
-# Using npm
 npm run android
-
-# OR using Yarn
-yarn android
 ```
 
 ### iOS
@@ -47,13 +50,7 @@ bundle exec pod install
 For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
 
 ```sh
-# Using npm
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+You can also build it directly from Android Studio or Xcode.
