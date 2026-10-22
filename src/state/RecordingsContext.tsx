@@ -14,7 +14,7 @@ import {
 
 type RecordingsContextValue = {
   recordings: Recording[];
-  upsertRecording: (recording: Recording) => void;
+  saveRecording: (recording: Recording) => void;
   removeRecording: (id: string) => void;
 };
 
@@ -35,7 +35,7 @@ export function RecordingsProvider({
     });
   }, []);
 
-  const upsertRecording = useCallback(
+  const saveRecording = useCallback(
     (recording: Recording) =>
       update(prev => {
         const exists = prev.some(r => r.id === recording.id);
@@ -59,8 +59,8 @@ export function RecordingsProvider({
   );
 
   const value = useMemo(
-    () => ({ recordings, upsertRecording, removeRecording }),
-    [recordings, upsertRecording, removeRecording],
+    () => ({ recordings, saveRecording, removeRecording }),
+    [recordings, saveRecording, removeRecording],
   );
 
   return (

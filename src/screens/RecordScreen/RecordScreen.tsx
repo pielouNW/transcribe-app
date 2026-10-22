@@ -53,7 +53,7 @@ function toMonoInt16(buffer: AudioStreamBuffer) {
 }
 
 export function RecordScreen({ navigation }: RootScreenProps<'Record'>) {
-  const { upsertRecording } = useRecordings();
+  const { saveRecording } = useRecordings();
   const insets = useSafeAreaInsets();
   const [phase, setPhase] = useState<Phase>('idle');
   const [elapsed, setElapsed] = useState(0);
@@ -235,7 +235,7 @@ export function RecordScreen({ navigation }: RootScreenProps<'Record'>) {
 
     const createdAt = Date.now();
 
-    upsertRecording({
+    saveRecording({
       id: idRef.current,
       title: `Recording ${new Date(createdAt).toLocaleString([], {
         dateStyle: 'medium',

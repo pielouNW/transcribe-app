@@ -155,7 +155,7 @@ export function TranscriptScreen({
   route,
 }: RootScreenProps<'Transcript'>) {
   const recording = useRecording(route.params.id);
-  const { upsertRecording } = useRecordings();
+  const { saveRecording } = useRecordings();
   const insets = useSafeAreaInsets();
   const [query, setQuery] = useState('');
   const [progress, setProgress] = useState<string | null>(null);
@@ -187,7 +187,7 @@ export function TranscriptScreen({
           audioFileFor(recording.id).uri,
           (done, total) => setProgress(`Re-transcribing… ${done}/${total}`),
         );
-        upsertRecording({ ...recording, chunks });
+        saveRecording({ ...recording, chunks });
       } finally {
         setProgress(null);
       }
@@ -207,7 +207,7 @@ export function TranscriptScreen({
     navigation.setOptions({
       headerRight: renderExportHeaderButton(openMenu),
     });
-  }, [navigation, recording, upsertRecording]);
+  }, [navigation, recording, saveRecording]);
 
   if (!recording) {
     return (
