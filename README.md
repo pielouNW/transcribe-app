@@ -7,9 +7,11 @@
 
 # Transcriber app
 
-Demonstrates the capabilities of **[NobodyWho](https://github.com/nobodywho-ooo/nobodywho)**, a library designed to run LLMs locally and efficiently on any device. With this app, you can do transcription locally, offline and for free, thanks to whisper Speech to Text model.
+Demonstrates the capabilities of **[NobodyWho](https://github.com/nobodywho-ooo/nobodywho)**, a library designed to run LLMs locally and efficiently on any device.
 
-## Step 1: Install and Start Metro
+With this app, you can do transcription locally, offline and for free, thanks to Whisper Speech-to-Text model.
+
+### Install and Start Metro
 
 First, you will need to run install dependencies:
 
@@ -23,15 +25,15 @@ To start the Metro dev server, run the following command :
 npm start
 ```
 
-## Step 2: Build and run your app
+### Build and run your app
 
-### Android
+**Android**
 
 ```sh
 npm run android
 ```
 
-### iOS
+**iOS**
 
 For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
 
