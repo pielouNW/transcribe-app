@@ -63,10 +63,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginTop: 12,
     borderRadius: 10,
-    backgroundColor: '#E9EEFF',
+    backgroundColor: colors.primaryContainer,
   },
   errorContainer: {
-    backgroundColor: '#FDE8E8',
+    backgroundColor: colors.dangerContainer,
   },
   text: {
     flex: 1,

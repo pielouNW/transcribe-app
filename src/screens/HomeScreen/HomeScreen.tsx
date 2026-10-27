@@ -16,6 +16,7 @@ import {
 import { formatTime, type Recording } from '../../lib/storage';
 import type { RootScreenProps } from '../../navigation/types';
 import { useRecordings } from '../../state/RecordingsContext';
+import { colors } from '../../theme';
 import { styles } from './HomeScreen.style';
 
 export function HomeScreen({ navigation }: RootScreenProps<'Home'>) {
@@ -92,7 +93,7 @@ export function HomeScreen({ navigation }: RootScreenProps<'Home'>) {
           onPress={() => navigation.navigate('Record')}
         >
           {modelLoading ? (
-            <ActivityIndicator size="small" color="#FFFFFF" />
+            <ActivityIndicator size="small" color={colors.ctaContentPrimary} />
           ) : (
             <View style={styles.recordDotContainer} />
           )}

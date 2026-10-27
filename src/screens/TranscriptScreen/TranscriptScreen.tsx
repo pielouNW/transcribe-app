@@ -255,6 +255,7 @@ export function TranscriptScreen({
           onChangeText={setQuery}
           placeholder="Search"
           placeholderTextColor={colors.muted}
+          selectionColor={colors.primary}
           style={styles.searchInput}
           autoCapitalize="none"
           autoCorrect={false}
