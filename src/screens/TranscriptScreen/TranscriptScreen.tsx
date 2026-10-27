@@ -125,7 +125,6 @@ function ExportHeaderButton({ onPress }: { onPress: () => void }) {
 
 type MenuItem = { label: string; action: () => Promise<unknown> };
 
-/** Native action sheet on iOS, alert with buttons on Android. */
 function showMenu(title: string, items: MenuItem[]) {
   const run = (item?: MenuItem) =>
     item?.action().catch(e => Alert.alert('Failed', String(e?.message ?? e)));
@@ -221,6 +220,7 @@ export function TranscriptScreen({
     await setAudioModeAsync({
       allowsRecording: false,
       playsInSilentMode: true,
+      interruptionMode: 'doNotMix',
     });
     await player.seekTo(seconds);
     player.play();
@@ -276,7 +276,10 @@ export function TranscriptScreen({
         keyExtractor={r => String(r.chunkIndex)}
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
-        contentContainerStyle={styles.listContainer}
+        contentContainerStyle={[
+          styles.listContainer,
+          !playerStatus.playing && { paddingBottom: insets.bottom + 16 },
+        ]}
         ListEmptyComponent={
           <Text style={styles.empty}>
             {regex ? 'Nothing matches that search.' : 'No speech detected.'}

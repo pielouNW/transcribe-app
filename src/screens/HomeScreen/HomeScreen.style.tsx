@@ -64,6 +64,30 @@ export const styles = StyleSheet.create({
     paddingTop: 12,
     backgroundColor: colors.background,
   },
+  progressContainer: {
+    gap: 6,
+    marginBottom: 20,
+  },
+  progressLabelContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  progressText: {
+    fontSize: 13,
+    color: colors.muted,
+    fontVariant: ['tabular-nums'],
+  },
+  progressTrackContainer: {
+    height: 6,
+    borderRadius: 3,
+    overflow: 'hidden',
+    backgroundColor: colors.primaryContainer,
+  },
+  progressFillContainer: {
+    height: '100%',
+    borderRadius: 3,
+    backgroundColor: colors.primary,
+  },
   recordButtonContainer: {
     flexDirection: 'row',
     alignItems: 'center',

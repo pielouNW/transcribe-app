@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
-  Pressable,
   StyleSheet,
   Text,
   View,
@@ -10,7 +9,6 @@ import {
 } from 'react-native';
 import {
   getModelStatus,
-  loadModel,
   subscribeModelStatus,
   type ModelStatus,
 } from '../lib/stt';
@@ -22,35 +20,39 @@ export function useModelStatus() {
   return status;
 }
 
-export function ModelStatusBanner({ style }: { style?: StyleProp<ViewStyle> }) {
+export function ModelStatusBanner({
+  style,
+  errorOnly,
+}: {
+  style?: StyleProp<ViewStyle>;
+  errorOnly?: boolean;
+}) {
   const status = useModelStatus();
 
-  if (status.state === 'ready' || status.state === 'idle') {
-    return null;
-  }
-
-  if (status.state === 'downloading' || status.state === 'loading') {
+  if (status.state === 'error') {
     return (
-      <View style={[styles.bannerContainer, style]}>
-        <ActivityIndicator size="small" color={colors.primary} />
-        <Text style={styles.text}>
-          {status.state === 'downloading'
-            ? 'Downloading transcription model… (one time download)'
-            : 'Transcription model is loading, please wait'}
-        </Text>
+      <View style={[styles.bannerContainer, styles.errorContainer, style]}>
+        <Text style={styles.text}>Model failed to load: {status.message}</Text>
       </View>
     );
   }
 
+  if (
+    errorOnly ||
+    (status.state !== 'downloading' && status.state !== 'loading')
+  ) {
+    return null;
+  }
+
   return (
-    <Pressable
-      style={[styles.bannerContainer, styles.errorContainer, style]}
-      onPress={() => loadModel().catch(() => {})}
-    >
+    <View style={[styles.bannerContainer, style]}>
+      <ActivityIndicator size="small" color={colors.primary} />
       <Text style={styles.text}>
-        Model failed to load: {status.message}. Tap to retry.
+        {status.state === 'downloading'
+          ? 'Downloading transcription model… (one time download)'
+          : 'Transcription model is loading, please wait'}
       </Text>
-    </Pressable>
+    </View>
   );
 }
 

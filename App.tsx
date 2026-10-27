@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useEffect } from 'react';
 import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { loadModel } from './src/lib/stt';
+import { isModelDownloaded, loadModel } from './src/lib/stt';
 import type { RootStackParamList } from './src/navigation/types';
 import { HomeScreen } from './src/screens/HomeScreen/HomeScreen';
 import { RecordScreen } from './src/screens/RecordScreen/RecordScreen';
@@ -14,8 +14,9 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App() {
   useEffect(() => {
-    // Start downloading/loading Whisper right away so it's ready by the first recording.
-    loadModel().catch(() => {});
+    if (isModelDownloaded()) {
+      loadModel().catch(() => {});
+    }
   }, []);
 
   return (
