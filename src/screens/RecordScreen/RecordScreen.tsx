@@ -110,34 +110,28 @@ export function RecordScreen({ navigation }: RootScreenProps<'Record'>) {
     loadModel().catch(() => {});
   }, []);
 
+  const streamRef = useRef(stream);
+  streamRef.current = stream;
+
   useEffect(
-    () =>
-      navigation.addListener('beforeRemove', e => {
-        if (phaseRef.current === 'idle') {
-          return;
-        }
+    () => () => {
+      if (phaseRef.current === 'idle') {
+        return;
+      }
 
-        e.preventDefault();
-
-        Alert.alert('Discard recording?', 'The recording will be lost.', [
-          { text: 'Keep recording', style: 'cancel' },
-          {
-            text: 'Discard',
-            style: 'destructive',
-            onPress: () => {
-              phaseRef.current = 'idle';
-              stream.stop();
-              deactivateKeepAwake(KEEP_AWAKE_TAG);
-              const file = audioFileFor(idRef.current);
-              if (file.exists) {
-                file.delete();
-              }
-              navigation.dispatch(e.data.action);
-            },
-          },
-        ]);
-      }),
-    [navigation, stream],
+      phaseRef.current = 'idle';
+      try {
+        streamRef.current.stop();
+      } catch (e) {
+        console.warn('Failed to stop recording', e);
+      }
+      deactivateKeepAwake(KEEP_AWAKE_TAG);
+      const file = audioFileFor(idRef.current);
+      if (file.exists) {
+        file.delete();
+      }
+    },
+    [],
   );
 
   const start = async () => {
@@ -185,6 +179,7 @@ export function RecordScreen({ navigation }: RootScreenProps<'Record'>) {
   const stop = async () => {
     setPhase('finishing');
     phaseRef.current = 'finishing';
+    const discarded = () => phaseRef.current !== 'finishing';
 
     let duration = elapsed;
     try {
@@ -192,6 +187,9 @@ export function RecordScreen({ navigation }: RootScreenProps<'Record'>) {
       duration = result.duration;
     } catch (e) {
       console.warn('Failed to finalize recording file', e);
+    }
+    if (discarded()) {
+      return;
     }
 
     stream.stop();
@@ -203,6 +201,9 @@ export function RecordScreen({ navigation }: RootScreenProps<'Record'>) {
       pendingRef.current = [];
 
       await Promise.all(jobs);
+    }
+    if (discarded()) {
+      return;
     }
 
     deactivateKeepAwake(KEEP_AWAKE_TAG);
@@ -231,6 +232,9 @@ export function RecordScreen({ navigation }: RootScreenProps<'Record'>) {
       await normalizeWavFile(audioFileFor(idRef.current));
     } catch (e) {
       console.warn('Failed to normalize recording volume', e);
+    }
+    if (discarded()) {
+      return;
     }
 
     const createdAt = Date.now();

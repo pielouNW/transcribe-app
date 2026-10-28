@@ -7,6 +7,7 @@ import { isModelDownloaded, loadModel } from './src/lib/stt';
 import type { RootStackParamList } from './src/navigation/types';
 import { HomeScreen } from './src/screens/HomeScreen/HomeScreen';
 import { RecordScreen } from './src/screens/RecordScreen/RecordScreen';
+import { SettingsScreen } from './src/screens/SettingsScreen/SettingsScreen';
 import { TranscriptScreen } from './src/screens/TranscriptScreen/TranscriptScreen';
 import { RecordingsProvider } from './src/state/RecordingsContext';
 
@@ -43,6 +44,14 @@ function App() {
               component={TranscriptScreen}
               options={{
                 title: 'Transcript',
+                headerBackButtonDisplayMode: 'minimal',
+              }}
+            />
+            <Stack.Screen
+              name="Settings"
+              component={SettingsScreen}
+              options={{
+                title: 'Settings',
                 headerBackButtonDisplayMode: 'minimal',
               }}
             />

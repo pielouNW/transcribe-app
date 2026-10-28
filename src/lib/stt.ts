@@ -1,6 +1,7 @@
 import { Directory, File, Paths } from 'expo-file-system';
 import { SpeechToText } from 'react-native-nobodywho';
 import { loudness, type AudioChunk } from './chunker';
+import { loadSettings, saveSettings } from './settings';
 
 const WHISPER_REPO = 'onnx-community/whisper-small';
 const WHISPER_REVISION = '36050c46d777d46dc4b5f43f6d90574fc38f8732';
@@ -72,6 +73,7 @@ let status: ModelStatus = isModelDownloaded()
   ? { state: 'idle' }
   : { state: 'notDownloaded' };
 let modelPromise: Promise<SpeechToText> | null = null;
+let language = loadSettings().sttLanguage;
 let downloadController: AbortController | null = null;
 const listeners = new Set<(s: ModelStatus) => void>();
 
@@ -160,6 +162,33 @@ export function cancelDownload() {
   downloadController?.abort();
 }
 
+export function getSttLanguage() {
+  return language;
+}
+
+// The language is fixed at load time, so a change reloads a loaded model. The
+// old one is destroyed once the chunks already queued on it are done.
+export function setSttLanguage(next: string | null) {
+  if (next === language) {
+    return;
+  }
+  language = next;
+  saveSettings({ sttLanguage: next });
+
+  const previous = modelPromise;
+  if (!previous) {
+    return;
+  }
+  
+  modelPromise = null;
+  queue = queue
+    .then(() => previous)
+    .then(
+      model => model.destroy(),
+      () => undefined,
+    );
+  loadModel().catch(() => {});
+}
 
 export function loadModel(): Promise<SpeechToText> {
   if (!modelPromise) {
@@ -167,20 +196,25 @@ export function loadModel(): Promise<SpeechToText> {
       return Promise.reject(new Error('Transcription model is not downloaded'));
     }
     setStatus({ state: 'loading' });
-    modelPromise = SpeechToText.load({
+    const promise: Promise<SpeechToText> = SpeechToText.load({
       source: modelPath(),
-      language: 'en',
+      language: language ?? undefined,
       quantization: WHISPER_QUANTIZATION,
     })
       .then(model => {
-        setStatus({ state: 'ready' });
+        if (modelPromise === promise) {
+          setStatus({ state: 'ready' });
+        }
         return model;
       })
       .catch(e => {
-        modelPromise = null;
-        setStatus({ state: 'error', message: String(e?.message ?? e) });
+        if (modelPromise === promise) {
+          modelPromise = null;
+          setStatus({ state: 'error', message: String(e?.message ?? e) });
+        }
         throw e;
       });
+    modelPromise = promise;
   }
   return modelPromise;
 }

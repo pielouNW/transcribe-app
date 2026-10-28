@@ -1,4 +1,5 @@
-import React from 'react';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import React, { useLayoutEffect } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -56,6 +57,22 @@ function getEmptyState(status: ModelStatus) {
   }
 }
 
+function SettingsHeaderButton({ onPress }: { onPress: () => void }) {
+  return (
+    <Pressable
+      onPress={onPress}
+      hitSlop={10}
+      accessibilityRole="button"
+      accessibilityLabel="Settings"
+    >
+      <Ionicons name="settings-outline" size={24} color={colors.primary} />
+    </Pressable>
+  );
+}
+
+const renderSettingsHeaderButton = (onPress: () => void) => () =>
+  <SettingsHeaderButton onPress={onPress} />;
+
 export function HomeScreen({ navigation }: RootScreenProps<'Home'>) {
   const { recordings, removeRecording } = useRecordings();
   const insets = useSafeAreaInsets();
@@ -67,6 +84,18 @@ export function HomeScreen({ navigation }: RootScreenProps<'Home'>) {
       ? Math.floor(modelStatus.progress * 100)
       : null;
   const emptyState = getEmptyState(modelStatus);
+  const modelDownloaded =
+    modelStatus.state !== 'notDownloaded' &&
+    modelStatus.state !== 'downloading' &&
+    isModelDownloaded();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: modelDownloaded
+        ? renderSettingsHeaderButton(() => navigation.navigate('Settings'))
+        : undefined,
+    });
+  }, [navigation, modelDownloaded]);
 
   const footerButton = (() => {
     switch (modelStatus.state) {
