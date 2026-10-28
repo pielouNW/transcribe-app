@@ -3,18 +3,30 @@ import { SpeechToText } from 'react-native-nobodywho';
 import { loudness, type AudioChunk } from './chunker';
 import { loadSettings, saveSettings } from './settings';
 
-const WHISPER_REPO = 'onnx-community/whisper-small';
-const WHISPER_REVISION = '36050c46d777d46dc4b5f43f6d90574fc38f8732';
+// Whisper small (~250 MB), swap with the medium block below to switch back.
+// const WHISPER_REPO = 'onnx-community/whisper-small';
+// const WHISPER_REVISION = '36050c46d777d46dc4b5f43f6d90574fc38f8732';
+// const WHISPER_FILES = [
+//   { path: 'config.json', size: 2227 },
+//   { path: 'generation_config.json', size: 3893 },
+//   { path: 'tokenizer.json', size: 2480466 },
+//   { path: 'onnx/encoder_model_int8.onnx', size: 92326127 },
+//   { path: 'onnx/decoder_model_merged_int8.onnx', size: 156750845 },
+// ];
+
+// Whisper medium (~990 MB).
+const WHISPER_REPO = 'onnx-community/whisper-medium-ONNX';
+const WHISPER_REVISION = 'd3978248a6b5de6df7ec29ddfbde3993845fa806';
+const WHISPER_FILES = [
+  { path: 'config.json', size: 1389 },
+  { path: 'generation_config.json', size: 3780 },
+  { path: 'tokenizer.json', size: 3930494 },
+  { path: 'onnx/encoder_model_int8.onnx', size: 313154498 },
+  { path: 'onnx/decoder_model_merged_int8.onnx', size: 672556229 },
+];
+
 const WHISPER_QUANTIZATION = 'int8';
 const SILENCE_THRESHOLD = 10;
-
-const WHISPER_FILES = [
-  { path: 'config.json', size: 2227 },
-  { path: 'generation_config.json', size: 3893 },
-  { path: 'tokenizer.json', size: 2480466 },
-  { path: 'onnx/encoder_model_int8.onnx', size: 92326127 },
-  { path: 'onnx/decoder_model_merged_int8.onnx', size: 156750845 },
-];
 
 export const MODEL_DOWNLOAD_BYTES = WHISPER_FILES.reduce(
   (sum, f) => sum + f.size,
